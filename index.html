@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery Crystal Collector</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery Library -->
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+
+	<!-- Reset -->
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- Local CSS -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+	<!-- Jumbotron for Title -->
+	<div class="jumbotron">
+		<h1 class="text-center">jQuery Crystals Collector</h1>
+		<h3 class="text-center">Gather the perfect number of crystals that match the generated number!</h3>
+	</div>
+
+	<div class="container">
+
+		<div class="row">
+
+			<!-- Generated Crystal Panel -->
+			<div class="col-lg-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Crystals</h3>
+					</div>
+
+					<div class="panel-body" id="crystals">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Match This!</h3>
+					</div>
+
+					<div class="panel-body">
+						<h3 id="matchNumber" value=""></h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Current Score</h3>
+					</div>
+
+					<div class="panel-body">
+						<h3 id="totalScore" value=""></h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Game Results</h3>
+					</div>
+
+					<div class="panel-body">
+						<h3 id="wins" value=""></h3>
+						<h3 id="losses" value=""></h3>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script src="assets/javascript/game.js"></script>
+
+</body>
+</html>
