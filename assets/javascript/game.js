@@ -1,114 +1,133 @@
-// VARIABLES
-// ==========================================================================
 
-// FUNCTIONS
-// ==========================================================================
-
-// The randomizeBetween function returns an (optionally) unique set of random 
-// numbers between min and max (inclusive).
-//		- howMany determines the number of numbers generated.
-//		- unique uses true and false to generate only unique numbers.
-//	 Used to generate number(s) for:
-// 		- Random number to match: between 19 and 120 (inclusive).
-// 		- Crystals: between 1 and 12 (inclusive).
-//		- Number of Crystals on the board and their colors.
-
-function randomizeBetween(min, max, howMany, unique) {
-
-	var arrayNumbers = [];
-	var randomNumber;
-
-	while(arrayNumbers.length < howMany){
-
-		randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-
-		if (unique) {
-			if(arrayNumbers.indexOf(randomNumber) > -1)
-				continue;
-		}
-
-		arrayNumbers[arrayNumbers.length] = randomNumber;
-	};
-
-	console.log("Generated " + howMany + " Numbers: " + arrayNumbers);
-	return arrayNumbers;
-};
-
-function initializeGame() {
-	var total = wins = losses = 0;
-	var matchNumber = "";
+$(document).ready(function() {
+	// VARIABLES
+	// ==========================================================================
+	var wins = losses = 0;
 	var howManyCrystals = "";
 	var crystalValues = [];
 	var crystalColors = [];
-};
+	var matchNumber = 0;
+	var currentScore = 0;
+	var imageColors = ["blue", "green", "red", "yellow", "aquamarine", "diamond", "purple", "pink"];
+	var firstTime = true;
 
-// MAIN PROCESS
-// ==========================================================================
+	// FUNCTIONS
+	// ==========================================================================
 
-$(document).ready(function() {
+	// The randomizeBetween function returns an (optionally) unique set of random 
+	// numbers between min and max (inclusive).
+	//		- howMany determines the number of numbers generated.
+	//		- unique uses true and false to generate only unique numbers.
+	//	 Used to generate number(s) for:
+	// 		- Random number to match: between 19 and 120 (inclusive).
+	// 		- Crystals: between 1 and 12 (inclusive).
+	//		- Number of Crystals on the board and their colors.
 
-	console.log(this);
-	var imageColors = ["blue", "green", "red", "yellow"];
+	function randomizeBetween(min, max, howMany, unique) {
 
-	initializeGame();
+		var arrayNumbers = [];
+		var randomNumber;
 
-	total = wins = losses = 0;
-	$("#totalScore").text(total);
-	
-	matchNumber = randomizeBetween(19, 120, 1, true);
+		while(arrayNumbers.length < howMany){
 
-	$("#matchNumber").text(matchNumber);
+			randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
-	howManyCrystals = randomizeBetween(3, 6, 1, true);
-	crystalValues = randomizeBetween(1, 12, howManyCrystals, true);
-	crystalColors = randomizeBetween(0, 3, howManyCrystals, false);
+			if (unique) {
+				if(arrayNumbers.indexOf(randomNumber) > -1)
+					continue;
+			}
 
-	for (var i = 0; i < howManyCrystals; i++) {
+			arrayNumbers[arrayNumbers.length] = randomNumber;
+		};
 
-    	// For each iteration, we will create an imageCrystal
-    	var crystalButton = $("<button>");
-    	var crystalImage = $("<img>");
-    	var imageName = "";
+		// console.log("Generated " + howMany + " Numbers: " + arrayNumbers);
+		return arrayNumbers;
+	};
 
-    	// First each crystal will be given the class ".crystal-image".
-    	// This will allow the CSS to take effect.
-    	crystalButton.addClass("crystal");
+	function generateCrystalButtons() {
 
-    	// Each imageCrystal will be given a src link to the crystal image
-    	crystalButton.attr("value", i+1);
+		for (var i = 0; i < howManyCrystals; i++) {
 
-    	console.log("imageColors[" + crystalColors[i] + "] = " + imageColors[crystalColors[i]]);
-    	crystalButton.attr("style", "background: url(assets/images/" + imageColors[crystalColors[i]] + ".png)");
+    		// For each iteration, we will create an crystalButton
+    		var crystalButton = $("<button>");
 
-    	// imageName = imageColors[i].concat("", ".png");
-    	// console.log("imageName = " + imageName);
-    	// crystalImage.attr("src", imageName);
+    		// First each crystalButton will be given the class ".crystal".
+    		// This will allow the CSS to take effect.
+    		crystalButton.addClass("crystal");
 
-    	// Each imageCrystal will be given a data attribute called data-crystalValue.
-    	// This data attribute will be set equal to the array value.
-    	crystalButton.attr("data-crystalValue", crystalValues[i]);
+    		// Each crystalButton will be assigned a crystal image at random.
+    		crystalButton.attr("value", i+1);
+    		// console.log("imageColors[" + crystalColors[i] + "] = " + imageColors[crystalColors[i]]);
+    		crystalButton.attr("style", "background: url(assets/images/" + imageColors[crystalColors[i]] + ".jpg)");
 
-    	// Lastly, each crystal image (with all it classes and attributes) will get added to the page.
-    	$("#crystals").append(crystalButton);
-    }
+    		// Each crystalButton will be given a data attribute called data-crystalValue.
+    		// This data attribute will be set equal to the array value.
+    		crystalButton.attr("data-crystalValue", crystalValues[i]);
 
-	// Add an on click listener to all elements that have the class "crystal"
-	$(".crystal").on("click", function() {
+    		// Lastly, each crystalButton (with all it classes and attributes) will get added to the page.
+    		$("#crystals").append(crystalButton);
+    	}
+    };
 
-        // Set the HTML of the #operator to the text of what was clicked
-        total += parseInt($(this).attr("data-crystalValue"));
-        console.log($(this).attr("data-crystalValue"));
-        console.log("total = ", total);
+    function initializeGame() {
 
-        $("#totalScore").text(total);
+    	matchNumber = 0;
+    	currentScore = 0;
 
-
-        console.log(this);
-    });
-
-        $("#wins").text("Wins: " + wins);
-
+    	$("#totalScore").text(currentScore);
+    	$("#wins").text("Wins: " + wins);
     	$("#losses").text("Losses: " + losses);
 
+    	matchNumber = randomizeBetween(19, 120, 1, true);
+
+    	$("#matchNumber").text(matchNumber);
+
+    	$('#crystals').empty();
+
+    	howManyCrystals = randomizeBetween(4, 8, 1, true);
+    	crystalValues = randomizeBetween(1, 12, howManyCrystals, true);
+    	crystalColors = randomizeBetween(0, 7, howManyCrystals, true);
+
+    	generateCrystalButtons();
+    };
+
+	// MAIN PROCESS
+	// ==========================================================================
+
+	function newGame() {
+
+		// console.log(this);
+
+		initializeGame();
+
+		// Add an on click listener to all elements that have the class "crystal"
+		$(".crystal").on("click", function() {
+
+        	// Set the value of the crystal in the data portion of the object.
+        	currentScore += parseInt($(this).attr("data-crystalValue"));
+        	// console.log($(this).attr("data-crystalValue"));
+
+        	$("#totalScore").text(currentScore);
+        	// console.log("currentScore = ", currentScore);
+        	// console.log("matchNumber = ", parseInt(matchNumber));
+
+        	if (currentScore === parseInt(matchNumber)){
+        		wins++;
+        		$("#wins").text("Wins: " + wins);
+        		// console.log("You Win!!")
+        		newGame();
+        	}
+        	else if (currentScore > parseInt(matchNumber)){
+        		losses++;
+        		$("#losses").text("Losses: " + losses);
+        		// console.log("You Lose!")
+        		newGame();
+        	}
+
+        });
+
+	}
+
+	newGame();
 
 });
